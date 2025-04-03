@@ -15,8 +15,8 @@ WEATHER:
 
 # 运行
 
-- sse `go run weather.go -t sse -p 端口` 默认 8013
-- stdio `go run weather.go`
+- sse 模式  `go run weather.go -t sse -p 端口` 默认 8013
+- stdio 模式 `go run weather.go`
   
 
 # 功能
