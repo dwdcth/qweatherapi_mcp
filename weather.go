@@ -300,10 +300,13 @@ func loadConfig(configPath string) error {
 func startWeatherService() {
 	var transport string
 	var configPath string
+	var port int
 	flag.StringVar(&transport, "t", "stdio", "传输类型 (stdio 或 sse)")
 	flag.StringVar(&transport, "transport", "stdio", "传输类型 (stdio 或 sse)")
 	flag.StringVar(&configPath, "c", "conf.yaml", "配置文件路径")
 	flag.StringVar(&configPath, "config", "conf.yaml", "配置文件路径")
+	flag.IntVar(&port, "p", 8013, "服务器端口")
+	flag.IntVar(&port, "port", 8013, "服务器端口")
 	flag.Parse()
 
 	// 加载配置文件
@@ -316,8 +319,9 @@ func startWeatherService() {
 	// 根据传输类型启动服务器
 	if transport == "sse" {
 		sseServer := server.NewSSEServer(mcpServer)
-		log.Printf("SSE 服务器监听于 :8013")
-		if err := sseServer.Start(":8013"); err != nil {
+		portString := fmt.Sprintf(":%d", port)
+		log.Printf("SSE 服务器监听于 %s", portString)
+		if err := sseServer.Start(portString); err != nil {
 			log.Fatalf("服务器错误: %v", err)
 		}
 	} else {
